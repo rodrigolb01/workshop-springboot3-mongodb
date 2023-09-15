@@ -1,10 +1,10 @@
 package com.example.demo.exception;
 
-public class ObjectNotFoundException extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	public ObjectNotFoundException(String msg)
+	public ResourceNotFoundException(String msg)
 	{
 		super(msg);
 	}

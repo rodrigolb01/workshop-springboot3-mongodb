@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.User;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 
@@ -24,5 +25,15 @@ public class UserService {
         Optional<User> user = repo.findById(id);
 		
 		return user.orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado. Id " + id));
+	}
+	
+	public User insert(User user)
+	{
+		return repo.insert(user);
+	}
+	
+	public User fromDTO(UserDTO dto)
+	{
+		return new User(dto.getId(), dto.getName(), dto.getEmail());
 	}
 }

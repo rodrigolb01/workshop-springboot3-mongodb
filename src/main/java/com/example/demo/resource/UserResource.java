@@ -18,31 +18,43 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.service.UserService;
 
 @RestController
-@RequestMapping(value="/users")
+@RequestMapping(value = "/users")
 public class UserResource {
 
 	@Autowired
 	private UserService service;
-	
-	@RequestMapping(method=RequestMethod.GET)
- 	public ResponseEntity<List<UserDTO>> findAll() {
+
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<UserDTO>> findAll() {
 		List<User> list = service.findAll();
 		List<UserDTO> dtoList = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(dtoList);
 	}
-	
-	@RequestMapping(value ="/{id}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
 		User user = service.findById(id);
 		return ResponseEntity.ok().body(new UserDTO(user));
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody UserDTO dto)
-	{
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody UserDTO dto) {
 		User user = service.fromDTO(dto);
 		user = service.insert(user);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();	
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).build();
-		}
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<UserDTO> update(@RequestBody UserDTO dto, @PathVariable String id) {
+		User user = service.fromDTO(dto);
+		user = service.update(id, user);
+		return ResponseEntity.ok().body(dto);
+	}
 }

@@ -20,20 +20,41 @@ public class UserService {
 		return repo.findAll();
 	}
 
-	public User findById(String id)
-	{
-        Optional<User> user = repo.findById(id);
-		
+	public User findById(String id) {
+		Optional<User> user = repo.findById(id);
+
 		return user.orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado. Id " + id));
 	}
-	
-	public User insert(User user)
-	{
+
+	public User insert(User user) {
 		return repo.insert(user);
 	}
-	
-	public User fromDTO(UserDTO dto)
-	{
+
+	public void delete(String id) {
+
+		Optional<User> existingUser = repo.findById(id);
+
+		if (!existingUser.isPresent()) {
+			throw new ResourceNotFoundException("Usuario não encontrado. Id " + id);
+		}
+
+		repo.deleteById(id);
+	}
+
+	public User update(String id, User user) {
+		Optional<User> existingUser = repo.findById(id);
+
+		if (!existingUser.isPresent()) {
+			throw new ResourceNotFoundException("Usuario não encontrado. Id " + id);
+		}
+
+		User updated = new User(existingUser.get().getId(), user.getName(), user.getEmail());
+
+		return repo.save(updated);
+	}
+
+	public User fromDTO(UserDTO dto) {
 		return new User(dto.getId(), dto.getName(), dto.getEmail());
 	}
+
 }

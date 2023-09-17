@@ -1,27 +1,26 @@
 package com.example.demo.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import com.example.demo.domain.User;
 
-public class UserDTO implements Serializable{
+public class AuthorDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	private String id;
 	private String name;
-	private String email;
 	
-	public UserDTO()
+	public AuthorDTO()
 	{
 		
 	}
 
-	public UserDTO(User user) {
+	public AuthorDTO(User user) {
 		super();
 		this.id = user.getId();
 		this.name = user.getName();
-		this.email = user.getEmail();
 	}
 
 	public String getId() {
@@ -40,12 +39,8 @@ public class UserDTO implements Serializable{
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
@@ -53,6 +48,7 @@ public class UserDTO implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -64,11 +60,16 @@ public class UserDTO implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserDTO other = (UserDTO) obj;
+		AuthorDTO other = (AuthorDTO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

@@ -20,4 +20,9 @@ public class PostService {
 
 		return user.orElseThrow(() -> new ResourceNotFoundException("Post não encontrado. Id " + id));
 	}
+	
+	public List<Post> findByTitle(String title)
+	{
+		return repo.findByTitleContainingIgnoreCase(title);
+	}
 }

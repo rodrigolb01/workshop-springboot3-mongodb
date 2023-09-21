@@ -18,7 +18,9 @@ Api web de rede social em que um usuário possúi posts vinculados a ele e cada 
 Pré-requisitos: 
 - Java 11
 - Eclipse IDE
-- Spring Tool Suite 
+- Spring Tool Suite
+- MongoDB
+- MongoDB Compass
 
 ```bash
 # clonar repositório
